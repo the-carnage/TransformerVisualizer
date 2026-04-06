@@ -8,3 +8,4 @@ venv/
 *.pyd
 dist/
 build/
+.streamlit/secrets.toml
