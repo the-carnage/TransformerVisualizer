@@ -690,7 +690,7 @@ tab_token, tab_position, tab_attention, tab_multihead, tab_ffn, tab_residual, ta
 with tab_token:
     if show_architecture:
         with st.expander("🏗️ Architecture — where are we?", expanded=False):
-            plot_chart(architecture_diagram(active_tab=0), use_container_width=True)
+            plot_chart(architecture_diagram(active_tab=0))
 
     render_intro(
         "Tokenization & Input Representation",
@@ -726,13 +726,13 @@ with tab_token:
             }
         )
         st.markdown("##### Words vs Tokens")
-        st.dataframe(comparison_frame, use_container_width=True, hide_index=True)
+        st.dataframe(comparison_frame, width="stretch", hide_index=True)
 
         token_frame = pd.DataFrame(
             {"Position": list(range(len(tokens))), "Token": tokens, "Token ID": pipeline["token_ids"]}
         )
         st.markdown("##### Token → Index Mapping")
-        st.dataframe(token_frame, use_container_width=True, hide_index=True)
+        st.dataframe(token_frame, width="stretch", hide_index=True)
 
     with col_heat:
         plot_chart(
@@ -742,7 +742,6 @@ with tab_token:
                 y_labels=token_labels,
                 title="Initial Token Embeddings",
             ),
-            use_container_width=True,
         )
 
     # Tracked token embedding profile
@@ -752,7 +751,6 @@ with tab_token:
             title=f"Embedding profile — '{tracked_token}'",
             legend_label="Initial embedding",
         ),
-        use_container_width=True,
     )
 
     # 3D PCA scatter
@@ -763,7 +761,6 @@ with tab_token:
                 tokens=tokens,
                 title="Token embeddings in 2D (before position)",
             ),
-            use_container_width=True,
         )
 
 # ── Tab 2: Positional Encoding ──────────────────────────────────────────
@@ -771,7 +768,7 @@ with tab_token:
 with tab_position:
     if show_architecture:
         with st.expander("🏗️ Architecture — where are we?", expanded=False):
-            plot_chart(architecture_diagram(active_tab=1), use_container_width=True)
+            plot_chart(architecture_diagram(active_tab=1))
 
     render_intro(
         "Positional Encoding",
@@ -788,7 +785,6 @@ with tab_position:
 
         plot_chart(
             sinusoidal_wave_figure(pipeline["positional_encoding"], selected_positions, tokens),
-            use_container_width=True,
         )
 
         col_pe, col_cmp = st.columns([1.2, 1])
@@ -800,7 +796,6 @@ with tab_position:
                     y_labels=token_labels,
                     title="Positional Encoding Matrix",
                 ),
-                use_container_width=True,
             )
         with col_cmp:
             plot_chart(
@@ -812,7 +807,6 @@ with tab_position:
                     },
                     title=f"How position changes '{tracked_token}'",
                 ),
-                use_container_width=True,
             )
 
         st.caption(
@@ -828,7 +822,7 @@ with tab_position:
 with tab_attention:
     if show_architecture:
         with st.expander("🏗️ Architecture — where are we?", expanded=False):
-            plot_chart(architecture_diagram(active_tab=2), use_container_width=True)
+            plot_chart(architecture_diagram(active_tab=2))
 
     render_intro(
         "Self-Attention Mechanism",
@@ -861,7 +855,6 @@ with tab_attention:
             query_index=selected_token_index,
             title=f"Attention from '{tracked_token}' — L{selected_layer_index} H{selected_head_index}",
         ),
-        use_container_width=True,
     )
 
     # Heatmaps side by side
@@ -874,7 +867,6 @@ with tab_attention:
                 y_labels=token_labels,
                 title=f"Q·K scores — L{selected_layer_index} H{selected_head_index}",
             ),
-            use_container_width=True,
         )
     with col_weights:
         if show_attention_maps:
@@ -888,7 +880,6 @@ with tab_attention:
                     y_axis_label="Query tokens",
                     color_label="Weight",
                 ),
-                use_container_width=True,
             )
         else:
             st.info("Enable **Attention maps** in sidebar.")
@@ -900,7 +891,6 @@ with tab_attention:
             title=f"Where '{tracked_token}' attends — L{selected_layer_index} H{selected_head_index}",
             legend_label="Attention weight",
         ),
-        use_container_width=True,
     )
 
 
@@ -909,7 +899,7 @@ with tab_attention:
 with tab_multihead:
     if show_architecture:
         with st.expander("🏗️ Architecture — where are we?", expanded=False):
-            plot_chart(architecture_diagram(active_tab=3), use_container_width=True)
+            plot_chart(architecture_diagram(active_tab=3))
 
     render_intro(
         "Multi-Head Attention",
@@ -943,7 +933,7 @@ with tab_multihead:
                 "Focus type": "Focused 🎯" if ent < 1.5 else "Diffuse 🌊",
             }
         )
-    st.dataframe(pd.DataFrame(summary_rows), use_container_width=True, hide_index=True)
+    st.dataframe(pd.DataFrame(summary_rows), width="stretch", hide_index=True)
 
     # Token importance bar
     fig_imp = go.Figure()
@@ -961,7 +951,7 @@ with tab_multihead:
         xaxis_title="Tokens",
         yaxis_title="Total attention received",
     )
-    plot_chart(style_figure(fig_imp, height=320), use_container_width=True)
+    plot_chart(style_figure(fig_imp, height=320))
 
     # Head comparison grid
     if show_attention_maps:
@@ -978,7 +968,6 @@ with tab_multihead:
                         y_axis_label="Query",
                         color_label="Weight",
                     ),
-                    use_container_width=True,
                 )
     else:
         st.info("Enable **Attention maps** in sidebar to compare heads visually.")
@@ -989,7 +978,7 @@ with tab_multihead:
 with tab_ffn:
     if show_architecture:
         with st.expander("🏗️ Architecture — where are we?", expanded=False):
-            plot_chart(architecture_diagram(active_tab=4), use_container_width=True)
+            plot_chart(architecture_diagram(active_tab=4))
 
     render_intro(
         "Feedforward Network (FFN)",
@@ -1009,7 +998,6 @@ with tab_ffn:
                 embedding_dim,
                 title="FFN Dimension Flow",
             ),
-            use_container_width=True,
         )
     with col_gelu:
         # GELU activation with actual values
@@ -1019,7 +1007,6 @@ with tab_ffn:
                 ffn_input_vals[:20],  # Show first 20 dims for clarity
                 title=f"GELU activations — '{tracked_token}'",
             ),
-            use_container_width=True,
         )
 
     # Before/after comparison
@@ -1032,7 +1019,6 @@ with tab_ffn:
                 y_labels=token_labels,
                 title=f"L{selected_layer_index} — expanded FFN hidden activations",
             ),
-            use_container_width=True,
         )
     with col_compare:
         plot_chart(
@@ -1044,7 +1030,6 @@ with tab_ffn:
                 },
                 title=f"'{tracked_token}' through FFN — L{selected_layer_index}",
             ),
-            use_container_width=True,
         )
 
     plot_chart(
@@ -1054,7 +1039,6 @@ with tab_ffn:
             y_labels=token_labels,
             title=f"L{selected_layer_index} — FFN output by token",
         ),
-        use_container_width=True,
     )
 
 
@@ -1063,7 +1047,7 @@ with tab_ffn:
 with tab_residual:
     if show_architecture:
         with st.expander("🏗️ Architecture — where are we?", expanded=False):
-            plot_chart(architecture_diagram(active_tab=5), use_container_width=True)
+            plot_chart(architecture_diagram(active_tab=5))
 
     render_intro(
         "Residual Connections & Layer Normalization",
@@ -1094,7 +1078,6 @@ with tab_residual:
                 after_label="After LayerNorm 1",
                 title="Distribution shift — LayerNorm 1",
             ),
-            use_container_width=True,
         )
     with col_dist2:
         plot_chart(
@@ -1105,7 +1088,6 @@ with tab_residual:
                 after_label="After LayerNorm 2",
                 title="Distribution shift — LayerNorm 2",
             ),
-            use_container_width=True,
         )
 
     # Norm heatmap and stats table
@@ -1137,10 +1119,9 @@ with tab_residual:
                 color_label="Norm",
                 colorscale="Inferno",
             ),
-            use_container_width=True,
         )
     with col_stats:
-        st.dataframe(stats_frame, use_container_width=True, hide_index=True)
+        st.dataframe(stats_frame, width="stretch", hide_index=True)
 
 
 # ── Tab 7: Layer-wise Representation ─────────────────────────────────────
@@ -1148,7 +1129,7 @@ with tab_residual:
 with tab_layers:
     if show_architecture:
         with st.expander("🏗️ Architecture — where are we?", expanded=False):
-            plot_chart(architecture_diagram(active_tab=6), use_container_width=True)
+            plot_chart(architecture_diagram(active_tab=6))
 
     render_intro(
         "Stacked Layers & Contextual Representation",
@@ -1172,7 +1153,6 @@ with tab_layers:
             dimension_labels,
             tracked_token,
         ),
-        use_container_width=True,
     )
 
     # Tracked token heatmap + drift
@@ -1185,7 +1165,6 @@ with tab_layers:
                 y_labels=layer_labels,
                 title=f"'{tracked_token}' representation across layers",
             ),
-            use_container_width=True,
         )
     with col_drift:
         plot_chart(
@@ -1199,7 +1178,6 @@ with tab_layers:
                 color_label="Drift",
                 colorscale="Magma",
             ),
-            use_container_width=True,
         )
 
     # Before/after geometry
@@ -1211,7 +1189,6 @@ with tab_layers:
                 tokens=tokens,
                 title="Token geometry — before layers",
             ),
-            use_container_width=True,
         )
     with col_after:
         plot_chart(
@@ -1220,7 +1197,6 @@ with tab_layers:
                 tokens=tokens,
                 title="Token geometry — after final layer",
             ),
-            use_container_width=True,
         )
 
     # Similarity matrices
@@ -1233,7 +1209,6 @@ with tab_layers:
                 y_labels=token_labels,
                 title="Token similarity — at input",
             ),
-            use_container_width=True,
         )
     with col_sim2:
         plot_chart(
@@ -1243,5 +1218,4 @@ with tab_layers:
                 y_labels=token_labels,
                 title="Token similarity — after final layer",
             ),
-            use_container_width=True,
         )
